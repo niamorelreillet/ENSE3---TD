@@ -11,6 +11,7 @@
 \usepackage[english,french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
 
 \newcommand{\n}{\tabularnewline}
 \newcolumntype{C}{>{\centering}X}
@@ -43,18 +44,18 @@
 \newcommand{\sg}{\textrm{sg}}
 
 \newcommand{\Eq}[1]{Eq.~\ref{eq:#1}}
-\newcommand{\Eqs}[2]{Eqs.~\ref{eq:#1} and~\ref{eq:#2}}
+\newcommand{\Eqs}[2]{Eqs.~\ref{eq:#1} et~\ref{eq:#2}}
 \newcommand{\Eqss}[3]{Eqs.~\ref{eq:#1},~\ref{eq:#2} and~\ref{eq:#3}}
 \newcommand{\Fig}[1]{Figure~\ref{fig:#1}}
-\newcommand{\Figs}[2]{Figures~\ref{fig:#1} and~\ref{fig:#2}}
-\newcommand{\Figss}[3]{Figures~\ref{fig:#1},~\ref{fig:#2} and~\ref{fig:#3}}
-\newcommand{\Tab}[1]{Table~\ref{tab:#1}}
-\newcommand{\Tabs}[2]{Tables~\ref{tab:#1} and~\ref{tab:#2}}
-\newcommand{\Tabss}[3]{Tables~\ref{tab:#1},~\ref{tab:#2} and~\ref{tab:#3}}
-\newcommand{\Sect}[1]{Section~\ref{sect:#1}}
-\newcommand{\Sects}[2]{Sections~\ref{sect:#1}~and~\ref{sect:#2}}
+\newcommand{\Figs}[2]{Figures~\ref{fig:#1} et~\ref{fig:#2}}
+\newcommand{\Figss}[3]{Figures~\ref{fig:#1},~\ref{fig:#2} et~\ref{fig:#3}}
+\newcommand{\Tab}[1]{Tableau~\ref{tab:#1}}
+\newcommand{\Tabs}[2]{Tableaux~\ref{tab:#1} et~\ref{tab:#2}}
+\newcommand{\Tabss}[3]{Tableaux~\ref{tab:#1},~\ref{tab:#2} et~\ref{tab:#3}}
+\newcommand{\Sect}[1]{\S~\ref{sect:#1}}
+\newcommand{\Sects}[2]{\S~\ref{sect:#1}~et~\ref{sect:#2}}
 \newcommand{\Sec}[1]{\Sect{#1}}
-\newcommand{\App}[1]{Appendix~\ref{app:#1}}
+\newcommand{\App}[1]{Annexe~\ref{app:#1}}
 %\renewcommand{\emph}[1]{\textcolor{red}{\bf #1}}
 
 \newenvironment{remark}[1][\textit{Nota Bene}]{\begin{trivlist}
@@ -124,6 +125,7 @@
 \begin{abstract}[french]
 %   Resum\'e en fran\c{c}ais
 Dans ce TD, on se propose d'évaluer, à partir des hypothèses et fermetures classiquement utilisées dans les codes de calculs, la répartition de la puissance et du flux de chaleur aux interfaces d'un bain de corium dans une configuration stationnaire à deux couches: une phase oxyde qui porte toute la puissance résiduelle en-dessous d'une phase métallique. La phase oxyde est entourée d'une croûte réfractaire tandis que la phase métallique est en contact direct avec la paroi de la cuve en fusion. Il s'agit d'une adaptation de la configuration évaluée pour le réacteur AP1000 dans \cite{Esmaili2004}.
+Pour faciliter la réalisation de ce TD (en particulier, les questions des \Sects{rad}{param} qui ne peuvent pas être traitées analytiquement), il est accompagné de notebooks Jupyter (voir \href{https://mybinder.org/v2/gh/niamorelreillet/ENSE3---TD/master?urlpath=lab}{https://mybinder.org/v2/gh/niamorelreillet/ENSE3---TD/master?urlpath=lab}).
 \end{abstract}
 % \selectlanguage{english}
 % \begin{abstract}
@@ -134,6 +136,18 @@ Dans ce TD, on se propose d'évaluer, à partir des hypothèses et fermetures cl
 \end{frontmatter}
 
 \selectlanguage{french}
+
+\section*{Préambule sur Jupyterlab}
+
+Les notebooks Jupyter sont des cahiers électroniques qui, dans le même document, peuvent rassembler du texte, des images, des formules mathématiques et du code informatique exécutable (en l'occurence du python 3). Ils sont manipulables interactivement dans un navigateur web (voir, par exemple, \href{https://python.sdv.univ-paris-diderot.fr/18\_jupyter}{https://python.sdv.univ-paris-diderot.fr/18\_jupyter}). 
+
+Trois notebooks accompagnent ce TD :
+\begin{itemize}
+ \item \texttt{Very\_short\_python\_tutorial.ipynb}, un très court tutoriel qui montre les quelques fonctionnalités python nécessaires à la réalisation de ce TD ;
+ \item \texttt{TD\_template.ipynb}, le ``canevas'' du TD à remplir en suivant les questions de l'énoncé ci-dessous;
+ \item \texttt{TD.ipynb}, le TD complété \dots à n'ouvrir qu'à la fin bien sûr !
+\end{itemize}
+
 \section{Configuration, hypothèses, notations} \label{sect:sci}
 
 La \Fig{2layer} présente la configuration considérée avec les notations associées vis-à-vis des flux de chaleur et des températures d'interface. Le fond de la cuve est hémisphérique de rayon $R=2$m. 
@@ -183,8 +197,8 @@ On cherche à calculer la température moyenne et la distribution de puissance e
 
 \Q{Calculer le volume \(V^{ox}\), la surface latérale \(S_{lat}^{ox}\) et la surface supérieure \(S_{up}^{ox}\)}
 \Q{Calculer le nombre de Rayleigh interne \(Ra_i^{ox}\)}
-\Q{Calculer le nombre de Nusselt associé à l'échange latéral \(Nu^{ox}_{lat}\) à partir de la corrélation ``BALI bas'' (\textit{cf.} \cite{Bonnet1999}) \(Nu^{ox}_{lat}=0.131\left(Ra^{ox}\right)^{0.25}\left(\frac{H^{ox}}{R}\right)^{0.19}\)}
-\Q{Calculer le nombre de Nusselt associé à l'échange supérieur \(Nu^{ox}_{up}\) à partir de la corrélation ``BALI haut'' (\textit{cf.} \cite{Bonnet1999}) \(Nu^{ox}_{up}=0.381\left(Ra^{ox}\right)^{0.234}\)}
+\Q{Calculer le nombre de Nusselt associé à l'échange latéral \(Nu^{ox}_{lat}\) à partir de la corrélation ``BALI bas'' (\textit{cf.} \cite{Bonnet1999}) \(Nu^{ox}_{lat}=0.131\left(Ra_i^{ox}\right)^{0.25}\left(\frac{H^{ox}}{R}\right)^{0.19}\)}
+\Q{Calculer le nombre de Nusselt associé à l'échange supérieur \(Nu^{ox}_{up}\) à partir de la corrélation ``BALI haut'' (\textit{cf.} \cite{Bonnet1999}) \(Nu^{ox}_{up}=0.381\left(Ra_i^{ox}\right)^{0.234}\)}
 \Q{Calculer \(T^{ox}\)}
 \Q{Calculer \(\phi_{lat}^{ox}\) et \(\phi_{up}^{ox}\) ainsi que la répartition de la puissance}
 
@@ -211,8 +225,7 @@ Considérons d'abord une condition adiabatique en surface haute \textit{i.e.} \(
 \Q{Calculer \(\phi_{lat}^{met}\)}
 \Q{Calculer \(T^{met}\)}
  
-
-\subsection{Condition de transfert radiatif en surface supérieure}
+\subsection{Condition de transfert radiatif en surface supérieure} \label{sect:rad}
 
 Considérons maintenant un transfert radiatif en surface haute sous la forme simple suivante \(\phi^{BC}_{up}\left[T^{met}_{up}\right]=\varepsilon_{up}\sigma\left(\left(T^{met}_{up}\right)^4-\left(T^{BC}\right)^4\right)\)
 où \(\varepsilon_{up}\) est une émissivité ``effective''.\footnote{e.g. pour un transfert entre deux plaques parallèles, \(\varepsilon_{up}=\left(\frac{1}{\varepsilon_1}+\frac{1}{\varepsilon_2}-1\right)^{-1}\)}
@@ -221,7 +234,13 @@ La résolution ne peut plus se faire de manière analytique.
 
 \Q{Formaliser le problème à résoudre (deux équations, deux inconnues \(\left(T^{met},T_{up}^{met}\right)\)) et décrire l'algorithme que vous implémenteriez pour en trouver la solution}
 
-Démonstration d'une telle résolution numérique et discussion des résultats.
+\begin{remark} Pour la suite, l'accès aux notebooks Jupyter associé à ce TD est indispensable. Si ça n'est pas possible, une démonstration d'une telle résolution numérique sera faite et les résultats discutés. \end{remark}
+
+\Q{En considérant $\varepsilon_{up} = 0.38$ et $T^{BC}=950$K, évaluer \(T^{met}\), \(T_{up}^{met}\), \(\phi_{lat}^{met}\) et \(\phi_{up}^{met}\)}
+
+\subsection{Etudes paramétriques} \label{sect:param}
+
+En considérant le cas avec transfert radiatif, on peut faire varier $\varepsilon_{up}$, $T^{BC}$ dans un premier temps, $H^{met}$ dans un second temps pour voir comment ça se comporte.
 
 \section*{Références}
 
